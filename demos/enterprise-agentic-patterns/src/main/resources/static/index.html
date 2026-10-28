@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Agentic Patterns - Interactive Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🤖</span>
+                <div class="logo-text">
+                    <h1>Enterprise Agentic Patterns</h1>
+                    <p>Interactive Visualization with Spring AI</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">Patterns</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">Stages</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="pattern-nav">
+        <div class="autonomy-axis" aria-hidden="true">
+            <span>Controllability</span>
+            <span class="autonomy-axis-line"></span>
+            <span>Autonomy</span>
+        </div>
+        <div class="nav-container" id="patternNav">
+            <!-- Populated by JavaScript -->
+        </div>
+    </nav>
+
+    <main class="main">
+        <section class="intro-section" id="introSection">
+            <div class="intro-card">
+                <h2>From Controllability to Autonomy</h2>
+                <p>Every pattern has a place on the stage map. Each stage to the right hands more of the flow to the model: more autonomy, less predictability, and more guard rails in code. Pick a pattern to see its flow and run it live.</p>
+                <div class="stage-map" id="stageMap"></div>
+                <div class="autonomy-axis autonomy-axis-wide" aria-hidden="true">
+                    <span>Controllability · predictable, auditable</span>
+                    <span class="autonomy-axis-line"></span>
+                    <span>Autonomy · flexible, needs guard rails</span>
+                </div>
+                <p class="stage-atom">Built from the same atom: <strong>Task Execution</strong> = Prompt Template + Structured Output</p>
+                <p class="intro-note">All nine patterns use the backend's active provider profile: Bedrock, OpenAI, Anthropic, or Ollama. Choose it at startup, for example with <code>SPRING_PROFILES_ACTIVE=openai</code>. The selected models must support tool calling and structured output.</p>
+            </div>
+        </section>
+
+        <section class="pattern-section" id="patternSection" style="display: none;">
+            <div class="pattern-header">
+                <div class="pattern-title-group">
+                    <span class="pattern-number" id="patternNumber">1</span>
+                    <div>
+                        <span class="stage-badge" id="stageBadge">Stage</span>
+                        <h2 id="patternName">Pattern Name</h2>
+                        <p id="patternSubtitle">Enterprise problem description</p>
+                    </div>
+                </div>
+                <div class="pattern-meta">
+                    <div class="stage-track" id="stageTrack" aria-label="Stage on the autonomy scale"></div>
+                    <div class="pattern-meta-badges">
+                        <span class="meta-badge" id="flowType">Flow Type</span>
+                        <span class="meta-badge" id="whoDecides">Who Decides</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pattern-grid">
+                <div class="panel flow-panel">
+                    <div class="panel-header">
+                        <h3>🔄 Pattern Flow</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="mermaid-container">
+                            <pre class="mermaid" id="flowDiagram"></pre>
+                        </div>
+                        <div class="flow-description" id="flowDescription"></div>
+                    </div>
+                </div>
+
+                <div class="panel demo-panel">
+                    <div class="panel-header">
+                        <h3>🎮 Interactive Demo</h3>
+                        <div class="sample-selector">
+                            <select id="sampleSelect" class="sample-dropdown"></select>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="input-section">
+                            <label class="input-label">Input Request</label>
+                            <textarea id="inputJson" class="json-input" spellcheck="false"></textarea>
+                        </div>
+                        <button id="runDemoBtn" class="run-btn">
+                            <span class="btn-icon">▶</span>
+                            Run Pattern
+                        </button>
+                        <div class="status-indicator" id="statusIndicator" style="display: none;">
+                            <span class="status-dot"></span>
+                            <span id="statusText">Running...</span>
+                        </div>
+                        <div class="run-error" id="runError" role="alert" hidden>
+                            <strong id="runErrorTitle"></strong>
+                            <span id="runErrorText"></span>
+                            <small id="runErrorHint"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="panel results-panel">
+                    <div class="panel-header">
+                        <h3>✨ Results & Visualization</h3>
+                        <button id="clearResultsBtn" class="clear-btn">Clear</button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="visualization-container" id="visualizationContainer"></div>
+                        <div class="raw-results">
+                            <details class="raw-details">
+                                <summary class="raw-summary">View Raw JSON Response</summary>
+                                <pre class="raw-json" id="rawJson"></pre>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="samples-reference">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>📚 Sample Files</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="samples-list" id="samplesList"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Spring Boot 4.2.0-RC1 • Spring AI 2.1.0-RC1 • Java 25</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

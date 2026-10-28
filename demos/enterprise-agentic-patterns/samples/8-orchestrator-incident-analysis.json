@@ -1,0 +1,4 @@
+{
+  "incidentId": "INC-4711",
+  "description": "Since about 14:05 UTC customers report failing checkouts on the web shop with 'Payment could not be processed'. Checkout error rate alert fired at 14:06. The on-call engineer rolled back payment-gateway at 14:31 on a hunch and things recovered at 14:33. We need the root cause and a postmortem draft for tomorrow's review."
+}

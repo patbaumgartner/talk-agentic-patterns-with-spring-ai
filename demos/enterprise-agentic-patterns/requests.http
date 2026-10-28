@@ -1,0 +1,98 @@
+### Enterprise agentic patterns, one request per demo (IntelliJ HTTP client / VS Code REST Client)
+@host = http://localhost:8080
+
+### 1 Task Execution: invoice extraction, code validates the arithmetic
+POST {{host}}/api/task-execution/invoices
+Content-Type: application/json
+
+< ./samples/1-task-execution-invoice.json
+
+### 1b Same agent, broken invoice: watch validationIssues and nextStep=MANUAL_REVIEW
+POST {{host}}/api/task-execution/invoices
+Content-Type: application/json
+
+< ./samples/1-task-execution-invoice-with-errors.json
+
+### 2 Mono: IT service desk agent with tools
+POST {{host}}/api/mono/service-desk
+Content-Type: application/json
+
+< ./samples/2-mono-service-desk.json
+
+### 2b Social engineering attempt: the tool refuses (policy SEC-07 is code)
+POST {{host}}/api/mono/service-desk
+Content-Type: application/json
+
+< ./samples/2-mono-service-desk-security-hold.json
+
+### 3 Chain: contract review, extract -> playbook gate (code) -> risk -> memo
+POST {{host}}/api/chain/contract-review
+Content-Type: application/json
+
+< ./samples/3-chain-contract-review.json
+
+### 3b Compliant contract: the code gate ends the chain after step 2
+POST {{host}}/api/chain/contract-review
+Content-Type: application/json
+
+< ./samples/3-chain-contract-review-compliant.json
+
+### 4 Parallelization: supplier due diligence, 4 risk dimensions at once
+POST {{host}}/api/parallelization/supplier-due-diligence
+Content-Type: application/json
+
+< ./samples/4-parallelization-supplier-due-diligence.json
+
+### 5 Evaluator-Optimizer: GDPR / revFADP breach notification until the judge passes it
+POST {{host}}/api/evaluator-optimizer/breach-notification
+Content-Type: application/json
+
+< ./samples/5-evaluator-optimizer-breach-notification.json
+
+### 6 Routing: insurance inbox, motor claim
+POST {{host}}/api/routing/insurance-inbox
+Content-Type: application/json
+
+< ./samples/6-routing-motor-claim.json
+
+### 6b Routing: formal complaint, handled by code with regulatory deadlines
+POST {{host}}/api/routing/insurance-inbox
+Content-Type: application/json
+
+< ./samples/6-routing-complaint.json
+
+### 6c Routing: out of scope, low confidence -> human-review fallback
+POST {{host}}/api/routing/insurance-inbox
+Content-Type: application/json
+
+< ./samples/6-routing-unclear.json
+
+### 7 Graph: KYC onboarding DAG
+POST {{host}}/api/graph/kyc-onboarding
+Content-Type: application/json
+
+< ./samples/7-graph-kyc-onboarding.json
+
+### 7b Graph: sanctions hit, code overrides whatever the model proposes
+POST {{host}}/api/graph/kyc-onboarding
+Content-Type: application/json
+
+< ./samples/7-graph-kyc-sanctions-hit.json
+
+### 8 Orchestrator-Workers: incident root-cause analysis and postmortem
+POST {{host}}/api/orchestrator/incident-analysis
+Content-Type: application/json
+
+< ./samples/8-orchestrator-incident-analysis.json
+
+### 9 Swarm: SaaS procurement, intake / security / legal / finance as peers
+POST {{host}}/api/swarm/saas-procurement
+Content-Type: application/json
+
+< ./samples/9-swarm-saas-procurement.json
+
+### 9b Swarm: vendor without certifications or DPA
+POST {{host}}/api/swarm/saas-procurement
+Content-Type: application/json
+
+< ./samples/9-swarm-saas-procurement-blocked.json

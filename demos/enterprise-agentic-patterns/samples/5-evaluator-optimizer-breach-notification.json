@@ -1,0 +1,9 @@
+{
+  "organisation": "ACME Insurance Ltd",
+  "incidentSummary": "A misconfigured cloud storage bucket used for claims document uploads was publicly readable between 2 and 19 October 2026. An external security researcher reported it. Access logs show 3 downloads by unknown IP addresses.",
+  "dataCategories": ["full name", "postal address", "policy number", "claim description", "photos of damaged property", "IBAN for claim payout"],
+  "affectedCustomers": 4812,
+  "discoveredAt": "2026-10-19T16:40:00+02:00",
+  "measuresTaken": ["Bucket access restricted within 35 minutes of the report", "All storage buckets audited, no other exposure found", "Supervisory authority FDPIC notified on 21 October 2026", "Monitoring of affected IBANs for fraudulent direct debits agreed with partner banks"],
+  "dpoContact": "dpo@acme-insurance.example, +41 44 555 01 01"
+}
